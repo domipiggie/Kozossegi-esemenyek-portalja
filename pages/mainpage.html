@@ -149,6 +149,7 @@
         })
 
         db.collection("Esemenyek").onSnapshot((quarySnapshots) => {
+            postContainer.innerHTML = ""
             quarySnapshots.forEach((doc) => {
                 console.log(doc.id)
                 console.log(doc.data())
