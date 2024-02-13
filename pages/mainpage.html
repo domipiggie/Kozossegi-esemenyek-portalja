@@ -11,9 +11,19 @@
 
 <body>
     <div class="container">
-    <div>
-        <input type="text" id="search" class="w-50 p-2" placeholder="Search...">
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a id="esemeny" class="navbar-brand" href="/esemenyadd.html">Esemény hozzáadása</a>
+            <form class="form-inline">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <input type="button" class="btn btn-outline-success my-2 my-sm-0" value="Search">
+            </form>
+          </nav>
     </div>
+    <div class="mt-5 text-center">
+        <h1>Jelenlegi Események</h1>
+    </div>
+    <div id="post" class="mt-5 text-center">
+
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-compat.js"></script>

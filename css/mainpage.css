@@ -4,14 +4,10 @@ body {
 .container {
     margin: 0;
     padding: 0;
-    background-color: black;
     max-width: 100%;
     display: inline-block;
 }
-#search {
-    margin-left: 80%;
-}
-.esemeny {
+#esemeny {
     text-align: left;
-    color: white;
+    color: red;
 }
