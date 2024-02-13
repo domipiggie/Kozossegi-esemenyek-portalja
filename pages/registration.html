@@ -48,6 +48,12 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                window.location = 'mainpage.html'; //If User is not logged in, redirect to login page
+            }
+        });
+
         const emailInput = document.getElementById("email")
         const passInput = document.getElementById("pw")
         const regisButton = document.getElementById("butt")
