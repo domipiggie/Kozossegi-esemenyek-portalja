@@ -12,18 +12,38 @@
 <body>
     <div class="container">
         <nav class="navbar navbar-light bg-light justify-content-between">
-            <a id="esemeny" class="navbar-brand" href="/esemenyadd.html">Esemény hozzáadása</a>
+            <a id="esemeny" class="navbar-brand" href="../pages/addevent.html">Esemény hozzáadása</a>
             <form class="form-inline">
-              <input id="searchIn" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <input type="button" id="searchBtn" class="btn btn-outline-success my-2 my-sm-0" value="Search">
+                <input id="searchIn" class="form-control mr-sm-2" type="search" placeholder="Search"
+                    aria-label="Search">
+                <input type="button" id="searchBtn" class="btn btn-outline-success my-2 my-sm-0" value="Search">
             </form>
-          </nav>
+        </nav>
     </div>
     <div class="mt-5 text-center">
         <h1>Jelenlegi Események</h1>
     </div>
     <div id="post" class="mt-5 text-center">
-
+        <div id="post1" class="text-left">
+            <div class="card mx-auto">
+                <div class="card-body">
+                    <h5 id="eventname">asd</h5>
+                    <p id="eventtext">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                        Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+                        took a galley of type and scrambled it to make a type specimen book. It has survived not only
+                        five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                        It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                        passages, and more recently with desktop publishing software like Aldus PageMaker including
+                        versions of Lorem Ipsum.</p>
+                </div>
+                <p id="time" class="ml-3">Időpont: 2024-2-13 11:57:00</p>
+                <h5 id="creator" class="ml-3">Posztot készítette: xdxd</h5>
+                <p id="applicants" class="ml-3 text-left mr-3">
+                    Jelentkezők: asda sd asdasd
+                    <input type="button" value="jelentkezés" id="join" class="btn btn-primary btn-block mt-3">
+                </p>
+            </div>
+        </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-compat.js"></script>
@@ -51,11 +71,11 @@
             }
         })
 
-        searchBtn.addEventListener('click', function(e){
+        searchBtn.addEventListener('click', function (e) {
             e.preventDefault()
             db.collection("Esemenyek").onSnapshot((quarySnapshots) => {
-                quarySnapshots.forEach((doc)=>{
-                    if (doc.data().nev.startsWith(searchIn.value)){
+                quarySnapshots.forEach((doc) => {
+                    if (doc.data().nev.startsWith(searchIn.value)) {
                         console.log(doc.id)
                         console.log(doc.data())
                     }
@@ -64,7 +84,7 @@
         })
 
         db.collection("Esemenyek").onSnapshot((quarySnapshots) => {
-            quarySnapshots.forEach((doc)=>{
+            quarySnapshots.forEach((doc) => {
                 console.log(doc.id)
                 console.log(doc.data())
             })

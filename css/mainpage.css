@@ -11,3 +11,18 @@ body {
     text-align: left;
     color: red;
 }
+#post{
+    border: 3px solid black;
+    border-radius: 5px;
+    height: auto;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+#post1 {
+    border: 3px solid red;
+    height: auto;
+    border-radius: 5px;
+}
+#right{
+    float:right;
+}
