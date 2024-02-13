@@ -15,6 +15,41 @@
         <input type="text" id="search" class="w-50 p-2" placeholder="Search...">
     </div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCNWYxskOcWrPruI5fmx8BM51V4zgcJVYU",
+            authDomain: "kozossegi-esemeny-portal.firebaseapp.com",
+            projectId: "kozossegi-esemeny-portal",
+            storageBucket: "kozossegi-esemeny-portal.appspot.com",
+            messagingSenderId: "987444679907",
+            appId: "1:987444679907:web:d8f55e9b459ab722a7a1d6"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        db.collection("Esemenyek").onSnapshot((quarySnapshots) => {
+            quarySnapshots.forEach((doc)=>{
+                console.log(doc.id)
+                console.log(doc.data())
+            })
+        })
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const app2 = initializeApp(firebaseConfig);
+        const auth2 = getAuth(app2);
+
+        /*auth2.onAuthStateChanged(user => {
+            if (!user) {
+                window.location = '../index.html';
+            }
+        });*/
+    </script>
 </body>
 
 </html>
