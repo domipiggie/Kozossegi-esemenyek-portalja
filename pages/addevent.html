@@ -4,19 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Esemény hozzáadása</title>
 </head>
 
-<body>
-    <label for="name">Esemény neve:</label>
-    <input type="text" id="name">
-    <label for="desc">Esemény leírása:</label>
-    <textarea id="desc"></textarea>
-    <label for="date">Esemény időpontja:</label>
-    <input type="text" id="date">
-    <label for="place">Esemény helyszíne:</label>
-    <input type="text" id="place">
-    <button id="addEvent">Esemény hozzáadása</button>
+<body style="background-color: antiquewhite;">
+    <div class="container my-5">
+        <div class="card mx-auto" style="max-width: 400px;">
+            <div class="card-header bg-light text-white text-center">
+                <h2 style="color:black">Esemény Létrehozása</h2>
+            </div>
+            <div class="card-body">
+        <form>
+            <div class="form-group">
+                <label for="name">Esemény neve:</label>
+                <input type="text" id="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="desc">Esemény leírása:</label>
+                <textarea id="desc" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="date">Esemény időpontja:</label>
+                <input type="text" id="date" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="place">Esemény helyszíne:</label>
+                <input type="text" id="place" class="form-control">
+            </div>
+            <button id="addEvent" class="btn btn-primary btn-block">Esemény hozzáadása</button>
+        </form>
+    </div>
+    </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-compat.js"></script>
@@ -54,7 +74,7 @@
 
         addBtn.addEventListener('click', function (e) {
             e.preventDefault()
-            db.collection("Esemenyek").add({ nev: eventName.value, leiras: eventDesc.value, idopont: eventDate.value, helyszin: eventPlace.value, jelentkezok: [], keszito: uid})
+            db.collection("Esemenyek").add({ nev: eventName.value, leiras: eventDesc.value, idopont: eventDate.value, helyszin: eventPlace.value, jelentkezok: [], keszito: uid })
                 .then((docRef) => {
                     console.log(docRef)
                     window.location = 'mainpage.html'
@@ -63,7 +83,7 @@
                     console.error(e)
                     alert("Hiba történt az esemény létrehozása közben!")
                 })
-            })
+        })
     </script>
 </body>
 
