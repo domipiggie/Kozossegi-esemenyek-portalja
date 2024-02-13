@@ -24,26 +24,6 @@
         <h1>Jelenlegi Események</h1>
     </div>
     <div id="post" class="mt-5 text-center">
-        <div id="post1" class="text-left">
-            <div class="card mx-auto">
-                <div class="card-body">
-                    <h5 id="eventname">asd</h5>
-                    <p id="eventtext">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                        Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                        took a galley of type and scrambled it to make a type specimen book. It has survived not only
-                        five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                        It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                        passages, and more recently with desktop publishing software like Aldus PageMaker including
-                        versions of Lorem Ipsum.</p>
-                </div>
-                <p id="time" class="ml-3">Időpont: 2024-2-13 11:57:00</p>
-                <h5 id="creator" class="ml-3">Posztot készítette: xdxd</h5>
-                <p id="applicants" class="ml-3 text-left mr-3">
-                    Jelentkezők: asda sd asdasd
-                    <input type="button" value="jelentkezés" id="join" class="btn btn-primary btn-block mt-3">
-                </p>
-            </div>
-        </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-compat.js"></script>
@@ -60,24 +40,109 @@
 
         const searchIn = document.getElementById("searchIn")
         const searchBtn = document.getElementById("searchBtn")
+        const postContainer = document.getElementById("post")
 
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore(app);
         const auth = firebase.auth(app);
 
+        let useremail;
+
         auth.onAuthStateChanged(user => {
             if (!user) {
                 //window.location = '../index.html';
             }
+            useremail = user.email
         })
+
+        function createPost(name, text, time, creator, applicants, postId){
+            const postDiv = document.createElement("div")
+            postDiv.classList = "text-left"
+            postDiv.id = "post1"
+            const cardDiv = document.createElement("div")
+            cardDiv.classList = "card mx-auto"
+            const cardBody = document.createElement("div")
+            cardBody.classList = "card-body"
+            const eName = document.createElement("h5")
+            eName.innerText = name
+            eName.id = "eventname"
+            const eText = document.createElement("p")
+            eText.innerText = text
+            eText.id = "eventtext"
+            const eTime = document.createElement("p")
+            eTime.innerText = time
+            eTime.classList = "ml-3"
+            eTime.id = "time"
+            const eCreator = document.createElement("h5")
+            eCreator.innerText = "Posztot készítette: "+creator
+            eCreator.classList = "ml-3"
+            eCreator.id = "creator"
+            const eApplicants = document.createElement("p")
+            eApplicants.classList = "ml-3 text-left mr-3"
+            eApplicants.innerText = "Jelentkezők: "+applicants
+            const joinBtn = document.createElement("input")
+            joinBtn.type = "button"
+            joinBtn.id = "join"
+            joinBtn.classList = "btn btn-primary btn-block mt-3"
+
+            console.log(applicants)
+            if (applicants.includes(useremail)){
+                joinBtn.value = "Visszavonás"
+                joinBtn.onclick = function(){
+                    console.log(postId)
+                    const asd = db.collection('Esemenyek').doc(postId)
+                    asd.update({
+                        jelentkezok: firebase.firestore.FieldValue.arrayRemove(useremail)
+                    }).then(() => {
+                        reDraw()
+                    }).catch(error => {
+                        console.error("Error updating document: ", error);
+                    });
+                }
+            } else {
+                joinBtn.value = "Jelentkezés"
+                joinBtn.onclick = function(){
+                    console.log(postId)
+                    const asd = db.collection('Esemenyek').doc(postId)
+                    asd.update({
+                        jelentkezok: firebase.firestore.FieldValue.arrayUnion(useremail)
+                    }).then(() => {
+                        reDraw()
+                    }).catch(error => {
+                        console.error("Error updating document: ", error);
+                    });
+                }
+            }
+
+            postDiv.appendChild(cardDiv)
+            cardDiv.appendChild(cardBody)
+            cardBody.appendChild(eName)
+            cardBody.appendChild(eText)
+            cardDiv.appendChild(eTime)
+            cardDiv.appendChild(eCreator)
+            cardDiv.append(eApplicants)
+            eApplicants.appendChild(joinBtn)
+            postContainer.appendChild(postDiv)
+        }
+
+        function reDraw(){
+            postContainer.innerHTML = ""
+            db.collection("Esemenyek").onSnapshot((quarySnapshots) => {
+                quarySnapshots.forEach((doc) => {
+                    let data = doc.data()
+                    createPost(data.nev, data.leiras, data.idopont, data.keszito, data.jelentkezok, doc.id)
+                })
+            })
+        }
 
         searchBtn.addEventListener('click', function (e) {
             e.preventDefault()
+            postContainer.innerHTML = ""
             db.collection("Esemenyek").onSnapshot((quarySnapshots) => {
                 quarySnapshots.forEach((doc) => {
                     if (doc.data().nev.startsWith(searchIn.value)) {
-                        console.log(doc.id)
-                        console.log(doc.data())
+                        let data = doc.data()
+                        createPost(data.nev, data.leiras, data.idopont, data.keszito, data.jelentkezok, doc.id)
                     }
                 })
             })
@@ -87,6 +152,8 @@
             quarySnapshots.forEach((doc) => {
                 console.log(doc.id)
                 console.log(doc.data())
+                let data = doc.data()
+                createPost(data.nev, data.leiras, data.idopont, data.keszito, data.jelentkezok, doc.id)
             })
         })
     </script>
