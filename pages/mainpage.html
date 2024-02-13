@@ -14,8 +14,8 @@
         <nav class="navbar navbar-light bg-light justify-content-between">
             <a id="esemeny" class="navbar-brand" href="/esemenyadd.html">Esemény hozzáadása</a>
             <form class="form-inline">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <input type="button" class="btn btn-outline-success my-2 my-sm-0" value="Search">
+              <input id="searchIn" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <input type="button" id="searchBtn" class="btn btn-outline-success my-2 my-sm-0" value="Search">
             </form>
           </nav>
     </div>
@@ -38,6 +38,9 @@
             appId: "1:987444679907:web:d8f55e9b459ab722a7a1d6"
         };
 
+        const searchIn = document.getElementById("searchIn")
+        const searchBtn = document.getElementById("searchBtn")
+
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore(app);
         const auth = firebase.auth(app);
@@ -46,6 +49,18 @@
             if (!user) {
                 //window.location = '../index.html';
             }
+        })
+
+        searchBtn.addEventListener('click', function(e){
+            e.preventDefault()
+            db.collection("Esemenyek").onSnapshot((quarySnapshots) => {
+                quarySnapshots.forEach((doc)=>{
+                    if (doc.data().nev.startsWith(searchIn.value)){
+                        console.log(doc.id)
+                        console.log(doc.data())
+                    }
+                })
+            })
         })
 
         db.collection("Esemenyek").onSnapshot((quarySnapshots) => {
